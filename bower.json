@@ -1,7 +1,7 @@
 {
   "name"    : "hexa-app",
   "version" : "0.0.1",
-  "license" : "MIT",
+  "license" : "BSD",
   "private" : true,
 
   "authors" : [
