@@ -8,7 +8,7 @@ port = env.PORT || 5000
 app  = express()
 
 app.use session secret: env.SESSION_SECRET
-app.use "/assets", express.static __dirname + "/assets"
+app.use "/assets", express.static __dirname + "/app/assets"
 
 app.set "views", __dirname
 app.set "view engine", "ejs"
