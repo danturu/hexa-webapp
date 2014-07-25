@@ -12,6 +12,11 @@ module.exports = (app, env, __root) ->
 
   hexa = new oauth.OAuth2 env.SERVER_PUBLIC_KEY, env.SERVER_SECRET_KEY, env.SERVER_ENDPOINT, "/oauth/authorize", "/oauth/token", null
 
+  app.use (request, response, next) ->
+    response.locals.endpoint    = env.SERVER_ENDPOINT
+    response.locals.accessToken = request.session.accessToken
+    next()
+
   # Boilerplate authentication handlers.
 
   app.get "/auth", (request, response) ->
