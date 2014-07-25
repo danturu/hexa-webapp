@@ -33,3 +33,7 @@ module.exports = (app, env, __root) ->
   app.get "/logout", (request, response) ->
     request.session.accessToken = null
     response.redirect env.SERVER_ENDPOINT + "/logout"
+
+  # EXPORTS
+
+  hexa

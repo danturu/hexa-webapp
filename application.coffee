@@ -1,7 +1,7 @@
 express = require "express"
 session = require "cookie-session"
 
-# CONFIGURE
+# CONFIG
 
 env  = process.env
 port = env.PORT || 5000
@@ -16,12 +16,17 @@ app.set "view engine", "ejs"
 # ENVIRONMENT
 
 require("#{__dirname}/config/environments/#{app.settings.env}.coffee")(app, env, __dirname)
-require("#{__dirname}/lib/authentication.coffee")(app, env, __dirname)
+
+# MODULES
+
+hexa = require("#{__dirname}/lib/authentication.coffee")(app, env, __dirname)
 
 # ROUTES
 
 app.get "/", (request, response) ->
-  response.render "application"
+  hexa.get "#{env.SERVER_ENDPOINT}/api/v1/objects", request.session.accessToken, (event, data) ->
+    response.render "application", data: data
 
 app.listen port, ->
   console.log "Listening on port: #{port}"
+

@@ -17,6 +17,7 @@ require.config({
   }
 });
 
-require(["cs!application", "cs!environment",  "cs!modules/game/module", "cs!lib/array"], function(Hexa) {
-  Hexa.start({});
+require(["cs!application", "jquery", "cs!environment",  "cs!modules/game/module", "cs!lib/array"], function(Hexa, $) {
+  data = JSON.parse($("#data").text());
+  Hexa.start(data);
 });

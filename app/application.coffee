@@ -3,8 +3,8 @@ define ["marionette"], (Marionette) ->
 
   Hexa.addRegions mainRegion: "article.app"
 
-  Hexa.on "before:start", (bootstrapData) ->
-    Hexa.bootstrapData = bootstrapData
+  Hexa.on "before:start", (data) ->
+    Hexa.bootstrapData = data
     Hexa.currentSubMod = stop: ->
 
   Hexa.on "start", ->
