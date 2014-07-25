@@ -1,0 +1,25 @@
+{
+  "name"    : "Hexa",
+  "version" : "0.0.1",
+  "license" : "MIT",
+  "private" : true,
+
+  "scripts" : {
+    "postinstall" : "bower install"
+  },
+
+  "dependencies" : {
+    "requirejs"       : "2.1.x",
+    "coffee-script"   : "1.7.x",
+    "node-sass"       : "0.9.x",
+    "express"         : "4.2.x",
+    "cookie-session"  : "1.0.x",
+    "oauth"           : "0.9.x",
+    "ejs"             : "1.0.x",
+    "humps"           : "git://github.com/domchristie/humps.git"
+  },
+
+  "devDependencies" : {
+    "debug" : "0.7.x"
+  }
+}
