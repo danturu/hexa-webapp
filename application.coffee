@@ -1,5 +1,6 @@
 express = require "express"
 session = require "cookie-session"
+Q       = require "q"
 
 # CONFIG
 
@@ -19,14 +20,18 @@ require("#{__dirname}/config/environments/#{app.settings.env}.coffee")(app, env,
 
 # MODULES
 
-hexa = require("#{__dirname}/lib/authentication.coffee")(app, env, __dirname)
+API           = require("#{__dirname}/lib/api.coffee")(app, env, __dirname)
+authorization = require("#{__dirname}/lib/authorization.coffee")(app, env, __dirname, API)
 
 # ROUTES
 
+authorization.mount()
+
 app.get "/", (request, response) ->
-  hexa.get "#{env.SERVER_ENDPOINT}/api/v1/objects", request.session.accessToken, (event, data) ->
-    response.render "application", data: data
+  accessToken = request.session.accessToken
+
+  Q.all([API.users.current(accessToken), API.objects.index(accessToken)]).then (data) ->
+    response.render "application", data: { user: data[0], objects: data[1] }
 
 app.listen port, ->
   console.log "Listening on port: #{port}"
-

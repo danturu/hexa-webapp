@@ -16,6 +16,7 @@
     "cookie-session"  : "1.0.x",
     "oauth"           : "0.9.x",
     "ejs"             : "1.0.x",
+    "q"               : "1.0.x",
     "humps"           : "git://github.com/domchristie/humps.git"
   },
 
