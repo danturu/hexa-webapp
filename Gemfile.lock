@@ -11,4 +11,4 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bourbon (~> 3.2)
+  bourbon (= 3.2.3)
