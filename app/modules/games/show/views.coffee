@@ -1,0 +1,1 @@
+define ["text!modules/games/show/templates.html", "marionette", "jquery", "underscore"], (TEMPLATES, Marionette, $, _) ->
