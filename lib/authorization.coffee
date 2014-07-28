@@ -24,4 +24,4 @@ module.exports = (app, env, __root, API) ->
 
     app.get "/logout", (request, response) ->
       request.session.accessToken = null
-      response.redirect "/logout"
+      response.redirect "#{env.SERVER_ENDPOINT}/logout"

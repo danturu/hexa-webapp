@@ -7,18 +7,18 @@ module.exports = (app, env, __root) ->
   API    = master: master, authorization: {}, users: {}, objects: {}, games: {}
 
   API.get = (path, accessToken) ->
-    master.get "#{env.SERVER_ENDPOINT}/api/v1/#{path}", accessToken, (event, data) -> deferred.resolve data
+    master.get "#{env.SERVER_ENDPOINT}/api/v1/#{path}", accessToken, (event, data) -> deferred.resolve JSON.parse data
 
     deferred = new Q.defer()
     deferred.promise
 
   API.authorization.getAuthorizeUrl = ->
       options = humps.decamelizeKeys redirectUri: env.OAUTH_REDIRECT_URI, responseType: "code"
-      hexaServer.getAuthorizeUrl options
+      master.getAuthorizeUrl options
 
   API.authorization.getAccessToken = (code, callback) ->
       options = humps.decamelizeKeys redirectUri: env.OAUTH_REDIRECT_URI, grantType: "authorization_code"
-      hexaServer.getOAuthAccessToken code, options, callback
+      master.getOAuthAccessToken code, options, callback
 
   API.users.current = (accessToken) ->
     API.get "users/current", accessToken

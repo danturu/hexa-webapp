@@ -27,11 +27,11 @@ authorization = require("#{__dirname}/lib/authorization.coffee")(app, env, __dir
 
 authorization.mount()
 
-app.get "/", (request, response) ->
+app.get "/*", (request, response) ->
   accessToken = request.session.accessToken
 
   Q.all([API.users.current(accessToken), API.objects.index(accessToken)]).then (data) ->
-    response.render "application", data: { user: data[0], objects: data[1] }
+    response.render "application", data: { currentUser: data[0], objects: data[1] }
 
 app.listen port, ->
   console.log "Listening on port: #{port}"

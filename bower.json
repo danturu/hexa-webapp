@@ -18,6 +18,7 @@
     "underscore"          : "1.6.x",
     "backbone-relational" : "0.8.x",
     "marionette"          : "2.0.x",
+    "routefilter"         : "0.2.x",
     "fabric"              : "1.4.x",
     "jplayer"             : "2.6.x"
   },
