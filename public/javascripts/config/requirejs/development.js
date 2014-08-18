@@ -16,5 +16,9 @@ require.config({
     "marionette": "marionette/lib/core/backbone.marionette",
     "text": "requirejs-text/text",
     "underscore": "underscore/underscore",
+  },
+
+  shim: {
+    "humps": { exports: "humps" }
   }
 });

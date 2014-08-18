@@ -17,6 +17,10 @@ require.config({
     "underscore": "../../tmp/public/javascripts/underscore/underscore"
   },
 
+  shim: {
+    "humps": { exports: "humps" }
+  },
+
   exclude: [
     "coffee-script"
   ],
