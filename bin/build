@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+var grunt = require("grunt");
+
+grunt.tasks(["build:" + (process.env.NODE_ENV || "development")]);

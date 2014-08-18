@@ -7,7 +7,7 @@
   "author": "Dimitri Rosenberg <di@radiant.fm> (http://github.com/rosendi)",
 
   "scripts": {
-    "postinstall": "grunt build"
+    "postinstall": "node bin/build"
   },
 
   "engines": {
