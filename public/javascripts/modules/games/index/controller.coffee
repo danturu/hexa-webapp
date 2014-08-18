@@ -6,11 +6,11 @@ define ["cs!app", "cs!modules/games/index/views"], (Hexa, Views) ->
     game.save(planet: planets.first()).done ->
       Hexa.trigger "games:show", game
 
-  index = (games) ->
-    currentPlayer = Hexa.request("app:currentUser")
+  index = ->
+    player = Hexa.request "app:currentUser"
+    games  = Hexa.request "entities:games"
 
-
-    gamesView = new Views.GamesView collection: games.started(), currentPlayer: currentPlayer
+    gamesView = new Views.GamesView collection: games.started(), currentPlayer: player
     Hexa.mainRegion.show gamesView
 
     gamesView.on "game:new", ->
@@ -22,7 +22,7 @@ define ["cs!app", "cs!modules/games/index/views"], (Hexa, Views) ->
   # EXPORTS
 
   index: ->
-    if (games = Hexa.request "entities:games").isEmpty() then create() else index(games)
+    index()
 
   new: ->
     create()
