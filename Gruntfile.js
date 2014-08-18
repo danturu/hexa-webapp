@@ -9,7 +9,13 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON("package.json"),
 
     bower: {
-      install: {
+      development: {
+        options: {
+          copy: false,
+        }
+      },
+
+      production: {
         options: {
           copy: false,
 
@@ -135,11 +141,11 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask("build:development", [
-    "bower:install",
+    "bower:development",
   ]);
 
   grunt.registerTask("build:production", [
-    "bower:install",
+    "bower:production",
     "assets:compile",
   ]);
 };
