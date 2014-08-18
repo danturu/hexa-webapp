@@ -94,10 +94,10 @@ article.games {
 
   ul.games li a {
     @include row;
-    $base-line: 10rem;
+    $base-line: 9rem;
     background: rgba(black, .333);
     padding: 1.5rem 3rem 1.5rem 1.5rem;
-    border-radius: 15px;
+    border-radius: 5% / 100%;
 
     &:active {
       @include transform(scale(.9));
@@ -123,10 +123,22 @@ article.games {
       color: white;
       font-size: 3rem;
       font-family: "Lasco";
+      height: $base-line / 2;
+      line-height: 1;
+      &:after{
+        font-size: 0;
+        display:inline-block;
+        content:"";
+        height:100%;
+        vertical-align:bottom;
+      }
     }
+
     div.name {
       margin: 0 ($base-line + 2rem);
       font-size: 1.8rem;
+      line-height: $base-line / 2;
+
     }
   }
 }
