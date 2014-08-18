@@ -1,0 +1,58 @@
+html {
+  font-size: 62.5%;
+  height: 100%;
+}
+
+body {
+  @include background-image(image-url("planets.png"), image-url("stars.png"), linear-gradient(#060730, #531B69));
+  @include font-smoothing(on);
+  color: white;
+  font-family: "Lasco Bold", $helvetica;
+  font-size: 1.6rem;
+  height: 100%;
+  line-height: 1.45;
+
+  background: {
+    attachment: fixed;
+    color: #531B69;
+    position: top right, bottom left;
+    size: cover, auto;
+  }
+}
+
+header, footer, article, section, ul, ol, form, h1, h2, h3, h4, h5, h6 {
+  border:  0;
+  padding: 0;
+  margin:  0;
+}
+
+ul, ol {
+  list-style-type: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+article.app {
+  @include display(flex);
+  min-height: 100%;
+}
+
+footer {
+  @include position(fixed, auto 0px 0px auto);
+  display: block;
+  font-size: 1.5rem;
+  line-height: 5rem;
+  padding: 0 2rem;
+
+  @include media(max-width 600px) {
+    font-size: 1.2rem;
+    line-height: 4rem;
+  }
+}

@@ -1,0 +1,204 @@
+@include keyframes("rotate") {
+  0%   { @include transform(rotate(0deg))   }
+  100% { @include transform(rotate(360deg)) }
+}
+
+@include keyframes("reverse-rotate") {
+  0%   { @include transform(rotate(360deg)) }
+  100% { @include transform(rotate(0deg))   }
+}
+
+@include keyframes("fade") {
+  0%   { opacity: 0.5 }
+  50%  { opacity: 1.0 }
+  100% { opacity: 0.5 }
+}
+
+@include keyframes("buzz-out") {
+  10% { @include transform(translateX(+3px) rotate(+2deg)); }
+  20% { @include transform(translateX(-3px) rotate(-2deg)); }
+  30% { @include transform(translateX(+3px) rotate(+2deg)); }
+  40% { @include transform(translateX(-3px) rotate(-2deg)); }
+  50% { @include transform(translateX(+2px) rotate(+1deg)); }
+  60% { @include transform(translateX(-2px) rotate(-1deg)); }
+  70% { @include transform(translateX(+1px) rotate(+0deg)); }
+  80% { @include transform(translateX(-0px) rotate(-0deg)); }
+}
+
+@include keyframes("push") {
+  50%  { @include transform(scale(.8)); }
+  100% { @include transform(sclae(1));  }
+}
+
+article.games {
+  @include outer-container;
+  margin: auto;
+  width: 100%;
+  padding: 4rem 0;
+
+
+  @include media(max-width 600px) {
+    padding: 20px 20px;
+  }
+
+  section.menu, section.tabs, ul.games {
+    @include row;
+    max-width: 60rem;
+    margin: 0 auto;
+  }
+
+  section.menu {
+    padding-bottom: 4rem;
+    a {
+      @include hide-text;
+      @include size(26rem 9rem);
+
+      &:active {
+        @include transform(scale(0.9));
+      }
+
+      &.new {
+        float: left;
+        @include retina-image("button_new_game", 100% 100%, $retina-suffix: "_2x");
+      }
+
+      &.join {
+        float: right;
+        @include retina-image("button_join_game", 100% 100%, $retina-suffix: "_2x");
+      }
+    }
+  }
+
+  @include media(max-width 600px) {
+    section.menu {
+      padding-bottom: 2rem;
+
+      a {
+        @include size(13rem 4.5rem);
+&.new {
+        @include retina-image("mobile/button_new_game", 100% 100%, $retina-suffix: "_2x");
+      }
+
+      &.join {
+        @include retina-image("mobile/button_join_game", 100% 100%, $retina-suffix: "_2x");
+      }
+      }
+    }
+  }
+
+  ul.games {
+    li + li {
+      margin-top: 2rem;
+    }
+  }
+
+  ul.games li a {
+    @include row;
+    $base-line: 10rem;
+    background: rgba(black, .333);
+    padding: 1.5rem 3rem 1.5rem 1.5rem;
+    border-radius: 15px;
+
+    &:active {
+      @include transform(scale(.9));
+    }
+    div.avatar {
+      @include size($base-line);
+      float: left;
+      border-radius: 50%;
+      background-size: 100%;
+      background-color: red;
+      border: 4px solid white;
+    }
+
+    div.score {
+      float: right;
+      line-height: $base-line;
+      color: white;
+      font-size: 4rem;
+    }
+
+    div.state {
+      margin: 0 ($base-line + 2rem);
+      color: white;
+      font-size: 3rem;
+      font-family: "Lasco";
+    }
+    div.name {
+      margin: 0 ($base-line + 2rem);
+      font-size: 1.8rem;
+    }
+  }
+}
+
+ul.games li.game {
+  color: white;
+}
+
+article.game {
+  @include position(fixed, 0px 0px);
+  @include display(flex);
+  @include justify-content(center);
+  @include align-items(center);
+  overflow: hidden;
+}
+
+article.game section.planet {
+  @include align-items(center);
+  @include display(flex);
+  @include justify-content(center);
+  max-width: 110rem;
+  position: relative;
+  width: 100%;
+
+  &:before {
+    content: " ";
+    display: block;
+    height: 0;
+    padding-bottom: 100%;
+  }
+
+  div.shine {
+    @include position(absolute, 0px 0px);
+    background-size: 100% 100%;
+
+    &.fader {
+      // @include animation(fade 15s linear 0s infinite normal both);
+      background-image: image-url("shine_fader.png");
+    }
+
+    &.outer {
+      // @include animation(rotate 120s linear 0s infinite normal both);
+      background-image: image-url("shine_outer.png");
+    }
+
+    &.inner {
+      // @include animation(rotate-reverse 120s linear 0s infinite normal both);
+      background-image: image-url("shine_inner.png");
+    }
+  }
+
+  img {
+    @include position(absolute, 0px auto auto 0px);
+    @include size(100%);
+  }
+
+  // fabric.js wrap canvas with container...
+
+  div.canvas-container {
+     width: 60% !important; height: auto !important;
+
+   &:before {
+      content: " ";
+      display: block;
+      height: 0;
+      padding-bottom: 100%;
+    }
+
+    canvas {
+      width: 100% !important; height: 100% !important;
+    }
+  }
+}
+
+
