@@ -1,30 +1,27 @@
 {
-  "name"    : "hexa-app",
-  "version" : "0.0.1",
-  "license" : "BSD",
-  "private" : true,
+  "name" : "hexa-space",
+  "version": "0.0.1",
+  "license": "BSD",
+  "private": true,
 
-  "authors" : [
-    "Dimitri Rosenberg <di@radiant.fm>",
-    "Alexey Solovev <rico@radiant.fm>"
+  "authors": [
+    "Dimitri Rosenberg <di@radiant.fm> (http://github.com/rosendi)",
+    "Alexey Solovyev <alexricochet@gmail.com> (http://behance.net/alexricochet)"
   ],
 
-  "dependencies" : {
-    "requirejs"           : "2.1.x",
-    "requirejs-text"      : "2.0.x",
-    "require-cs"          : "0.5.x",
-    "jquery"              : "2.1.x",
-    "backbone"            : "1.1.x",
-    "underscore"          : "1.6.x",
-    "backbone-relational" : "0.8.x",
-    "marionette"          : "2.0.x",
-    "routefilter"         : "0.2.x",
-    "fabric"              : "1.4.x",
-    "jplayer"             : "2.6.x"
-  },
-
-  "ignore" : [
-    "javascripts/vendor",
-    "javascripts/tests"
-  ]
+  "dependencies": {
+    "almond": "0.2.x",
+    "async": "0.2.x",
+    "backbone": "1.1.x",
+    "backbone-relational": "0.8.x",
+    "fabric": "1.4.x",
+    "humps": "0.4.x",
+    "jquery": "2.1.x",
+    "marionette": "2.0.x",
+    "require-cs": "0.5.x",
+    "requirejs": "2.1.x",
+    "requirejs-text": "2.0.x",
+    "routefilter": "0.2.x",
+    "underscore": "1.6.x"
+  }
 }

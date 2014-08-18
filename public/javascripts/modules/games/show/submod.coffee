@@ -1,4 +1,4 @@
-define ["cs!application", "cs!modules/games/show/controller", "underscore"], (Hexa, Controller, _) ->
+define ["cs!app", "cs!modules/games/show/controller", "underscore"], (Hexa, Controller, _) ->
   ShowMod = Hexa.module "GamesMod.Show"
 
   ShowMod.addInitializer ->

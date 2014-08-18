@@ -1,8 +1,7 @@
-define ["cs!application", "cs!modules/games/index/controller", "underscore"], (Hexa, Controller, _) ->
+define ["cs!app", "cs!modules/games/index/controller", "underscore"], (Hexa, Controller, _) ->
   IndexMod = Hexa.module "GamesMod.Index"
 
   IndexMod.addInitializer ->
-    alert "sdc"
     IndexMod.Controller = Controller
 
   IndexMod.addFinalizer ->

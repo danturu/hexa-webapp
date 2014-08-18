@@ -9,7 +9,7 @@ define ->
       if key of @store
         callback @store[key]
       else
-        fallback (value) =>  callback @put(key, value)
+        fallback (value) => callback @put key, value
 
     put: (key, value) ->
       @store[key] = value
@@ -18,7 +18,5 @@ define ->
       key of @store
 
   # EXPORTS
-
-  window.cache = new Cache()
 
   new Cache()

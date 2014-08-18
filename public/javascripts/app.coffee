@@ -12,7 +12,8 @@ define ["marionette"], (Marionette) ->
     return if Backbone.history.started
 
     Backbone.history.start pushState: true
-    Hexa.trigger "game:start"
+
+    Hexa.trigger "games:index" if Hexa.currentRoute() is ""
 
   Hexa.startSubMod = (subModName, attributes...) ->
     return if Hexa.currentSubMod.moduleName is subModName
@@ -20,6 +21,12 @@ define ["marionette"], (Marionette) ->
     Hexa.currentSubMod.stop()
     Hexa.currentSubMod = Hexa.module subModName
     Hexa.currentSubMod.start attributes
+
+  Hexa.navigate = (route, options={}) ->
+    Backbone.history.navigate route, options
+
+  Hexa.currentRoute = ->
+    Backbone.history.fragment
 
   # EXPORTS
 

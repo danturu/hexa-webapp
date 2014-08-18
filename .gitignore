@@ -1,7 +1,7 @@
 /node_modules
-/bower_components
-/vendor/javascripts/bower
 /tmp
+
+npm-debug.log
 
 .env
 .DS_Store

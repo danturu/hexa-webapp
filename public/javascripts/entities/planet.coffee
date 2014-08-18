@@ -1,10 +1,13 @@
-define ["cs!application", "cs!environment", "backbone", "backbone.relational"], (Hexa, Environment, Backbone) ->
+define ["cs!app", "backbone", "backbone.relational"], (Hexa, Backbone) ->
   class Model extends Backbone.RelationalModel
     name: ->
       @get "name"
 
     description: ->
       @get "description"
+
+    imageUrl: ->
+      @get "image_url"
 
   class Collection extends Backbone.Collection
     model: Model
