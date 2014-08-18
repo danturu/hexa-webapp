@@ -23,10 +23,7 @@
     "node-sass": "0.9.x",
     "oauth": "0.9.x",
     "q": "1.0.x",
-    "requirejs": "2.1.x"
-  },
-
-  "devDependencies": {
+    "requirejs": "2.1.x",
     "grunt": "0.4.x",
     "grunt-cli": "0.1.x",
     "grunt-bower-task": "0.4.x",
