@@ -5,15 +5,21 @@ module.exports = (app) ->
   # ASSETS
 
   app.use "/assets", sass.middleware
-    src          : "#{app.get 'root'}/public/stylesheets"
-    dest         : "#{app.get 'root'}/tmp/public/stylesheets"
-    imagePath    : "/assets"
-    force        : true
-    debug        : true
+    src       : "#{app.get 'root'}/public/stylesheets"
+    dest      : "#{app.get 'root'}/tmp/public/stylesheets"
+    imagePath : "/assets"
+    force     : true
+    debug     : true
 
   ["javascripts", "stylesheets", "images", "fonts"].forEach (dir) ->
     app.use "/assets", express.static "#{app.get 'root'}/public/#{dir}"
     app.use "/assets", express.static "#{app.get 'root'}/tmp/public/#{dir}"
+
+  app.use (req, res, next) ->
+    if /(.+)(\.)(.+)$/.test req.path
+      res.status(404).send("Not Found")
+    else
+      next()
 
   # HELPERS
 

@@ -7,6 +7,12 @@ module.exports = (app) ->
   app.use "/assets", express.static "#{app.get 'root'}/public/images"
   app.use "/assets", express.static "#{app.get 'root'}/public/fonts"
 
+  app.use (req, res, next) ->
+    if /(.+)(\.)(.+)$/.test req.path
+      res.status(404).send("Not Found")
+    else
+      next()
+
   map = require "#{app.get 'root'}/public/assets/map.json"
 
   javascriptTag = -> """

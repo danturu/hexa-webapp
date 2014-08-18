@@ -27,18 +27,22 @@ app.use (req, res, next) ->
 
     next()
   else
-    res.redirect "/auth"
-
-app.get "/auth", (req, res) ->
-  res.redirect hexa.getAuthorizeUrl()
+    req.session.returnTo = req.path unless req.session.returnTo
+    res.redirect hexa.getAuthorizeUrl()
 
 app.get "/auth/callback", (req, res) ->
   hexa.getAccessToken req.query.code, (event, accessToken) ->
+    returnTo = req.session.returnTo or "/"
+
+    req.session.returnTo    = null
     req.session.accessToken = accessToken
-    res.redirect "/"
+
+    res.redirect returnTo
 
 app.get "/logout", (req, res) ->
+  req.session.returnTo    = null
   req.session.accessToken = null
+
   res.redirect hexa.getLogoutUrl()
 
 app.get "/*", (req, res) ->
