@@ -39,7 +39,7 @@ a {
   text-decoration: none;
 }
 
-article.app {
+main {
   @include display(flex);
   min-height: 100%;
 }

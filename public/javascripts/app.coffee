@@ -1,7 +1,7 @@
 define ["marionette"], (Marionette) ->
   Hexa = new Marionette.Application()
 
-  Hexa.addRegions mainRegion: "article.app"
+  Hexa.addRegions mainRegion: "main"
 
   Hexa.on "before:start", (data) ->
     Hexa.entitiesCache = {}
