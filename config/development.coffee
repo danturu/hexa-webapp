@@ -28,11 +28,15 @@ module.exports = (app) ->
     <script>require(["/assets/config/requirejs/development.js"], function() { require(["cs!boot"]) });</script>
   """
 
-  stylesheetTag = -> """n
+  stylesheetTag = -> """
     <link href="/assets/app.css" media="screen" rel="stylesheet" />
   """
+
+  assetPath = (name) ->
+    "/assets/#{name}"
 
   app.use (req, res, next) ->
     res.locals.javascriptTag = javascriptTag
     res.locals.stylesheetTag = stylesheetTag
+    res.locals.assetPath     = assetPath
     next()

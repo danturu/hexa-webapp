@@ -23,7 +23,11 @@ module.exports = (app) ->
     <link href="/assets/#{map['application.css']}" media="screen" rel="stylesheet" />
   """
 
+  assetPath = (name) ->
+    "/assets/#{map[name]}"
+
   app.use (req, res, next) ->
     res.locals.javascriptTag = javascriptTag
     res.locals.stylesheetTag = stylesheetTag
+    res.locals.assetPath     = assetPath
     next()

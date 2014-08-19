@@ -10,12 +10,21 @@
     <meta name="hexa-endpoint-url" content="<%= endpointUrl %>">
     <meta name="hexa-access-token" content="<%= accessToken %>">
 
+    <link rel="icon"                             href="<%= assetPath('favicon.ico') %>">
+    <link rel="apple-touch-icon"                 href="<%= assetPath('touch_icon_iphone.png') %>">
+    <link rel="apple-touch-icon" sizes="76x76"   href="<%= assetPath('touch_icon_ipad.png') %>">
+    <link rel="apple-touch-icon" sizes="120x120" href="<%= assetPath('touch_icon_iphone_2x.png') %>">
+    <link rel="apple-touch-icon" sizes="152x152" href="<%= assetPath('touch_icon_ipad_2x.png') %>">
+
     <%- javascriptTag() %>
     <%- stylesheetTag() %>
   </head>
 
   <body>
-    <article class="app"></article>
+    <article class="app">
+      <!-- main app region -->
+    </article>
+
     <footer>© 2014 COMBO GAMES</footer>
 
     <script type="text/json" id="data">

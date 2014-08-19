@@ -58,7 +58,7 @@ module.exports = function(grunt) {
     filerev: {
       images: {
         cwd: "public/images/",
-        src: "**/*.{jpg,gif,png}",
+        src: "**/*.{jpg,gif,png,ico}",
         dest: "public/assets",
         expand: true,
       },
