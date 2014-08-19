@@ -33,24 +33,20 @@
 article.games {
   @include outer-container;
   margin: auto;
-  width: 100%;
   padding: 4rem 0;
+  width: 100%;
 
-
-  @include media(max-width 600px) {
-    padding: 20px 20px;
-  }
-
-  section.menu, section.tabs, ul.games {
-    @include row;
+  section.menu, ul.games {
     max-width: 60rem;
     margin: 0 auto;
   }
 
   section.menu {
-    padding-bottom: 4rem;
+    @include display(flex);
+    @include justify-content(space-between);
+    margin-bottom: 4rem;
+
     a {
-      @include hide-text;
       @include size(26rem 9rem);
 
       &:active {
@@ -58,30 +54,11 @@ article.games {
       }
 
       &.new {
-        float: left;
         @include retina-image("button_new_game", 100% 100%, $retina-suffix: "_2x");
       }
 
       &.join {
-        float: right;
         @include retina-image("button_join_game", 100% 100%, $retina-suffix: "_2x");
-      }
-    }
-  }
-
-  @include media(max-width 600px) {
-    section.menu {
-      padding-bottom: 2rem;
-
-      a {
-        @include size(13rem 4.5rem);
-&.new {
-        @include retina-image("mobile/button_new_game", 100% 100%, $retina-suffix: "_2x");
-      }
-
-      &.join {
-        @include retina-image("mobile/button_join_game", 100% 100%, $retina-suffix: "_2x");
-      }
       }
     }
   }
@@ -90,61 +67,101 @@ article.games {
     li + li {
       margin-top: 2rem;
     }
+
+    li a {
+      @include display(flex);
+      background-color: rgba(black, .3);
+      border-radius: 5% / 100%;
+      padding: 1.5rem 3rem 1.5rem 1.5rem;
+
+      &:active {
+        @include transform(scale(.9));
+      }
+
+      div.avatar {
+        @include size(9rem);
+        background-size: 100%;
+        border-radius: 50%;
+        border: 4px solid white;
+      }
+
+      section.info {
+        @include display(flex);
+        @include flex-direction(column);
+        @include flex(1);
+        padding: 0 1.5rem;;
+        line-height: 1;
+
+        div.turn, div.opponent {
+          @include ellipsis;
+          @include display(flex);
+          @include flex(1);
+        }
+
+        div.turn {
+          @include align-items(flex-end);
+          font-family: "Lasco";
+          font-size: 3rem;
+        }
+
+        div.opponent {
+          @include align-items(center);
+          font-size: 1.8rem;
+        }
+      }
+
+      div.score {
+        @include align-self(center);
+        font-size: 4rem;
+      }
+    }
   }
 
-  ul.games li a {
-    @include row;
-    $base-line: 9rem;
-    background: rgba(black, .333);
-    padding: 1.5rem 3rem 1.5rem 1.5rem;
-    border-radius: 5% / 100%;
+  @include media(max-width 600px) {
+    padding: 0 1.5rem;
 
-    &:active {
-      @include transform(scale(.9));
-    }
-    div.avatar {
-      @include size($base-line);
-      float: left;
-      border-radius: 50%;
-      background-size: 100%;
-      background-color: red;
-      border: 4px solid white;
-    }
+    section.menu {
+      margin-bottom: 2rem;
 
-    div.score {
-      float: right;
-      line-height: $base-line;
-      color: white;
-      font-size: 4rem;
-    }
+      a {
+        @include size(13rem 4.5rem);
 
-    div.state {
-      margin: 0 ($base-line + 2rem);
-      color: white;
-      font-size: 3rem;
-      font-family: "Lasco";
-      height: $base-line / 2;
-      line-height: 1;
-      &:after{
-        font-size: 0;
-        display:inline-block;
-        content:"";
-        height:100%;
-        vertical-align:bottom;
+        &.new {
+          @include retina-image("mobile/button_new_game", 100% 100%, $retina-suffix: "_2x");
+        }
+
+        &.join {
+          @include retina-image("mobile/button_join_game", 100% 100%, $retina-suffix: "_2x");
+        }
       }
     }
 
-    div.name {
-      margin: 0 ($base-line + 2rem);
-      font-size: 1.8rem;
-      line-height: $base-line / 2;
+    ul.games li a {
+      padding-right: 2rem;
 
+      div.avatar {
+        @include size(5rem);
+        border-width: 2px;
+      }
+
+      section.info {
+        padding: 0 1rem;
+
+        div.turn     { font-size: 1.7rem; }
+        div.opponent { font-size: 1.1rem; }
+      }
+
+      div.score {
+        font-size: 2.3rem;
+      }
     }
   }
-}
 
-ul.games li.game {
-  color: white;
+  @include media(max-width 600px orientation landscape) {
+    section.menu, ul.games {
+      max-width: 35rem;
+    }
+  }
 }
 
 article.game {

@@ -54,6 +54,9 @@ define ["cs!app", "cs!entities/plot", "cs!entities/unit", "backbone", "backbone.
   class UnitCollection extends Backbone.Collection
     model: UnitModel
 
+    withOwner: (color) ->
+      new @constructor @filter (unit) -> unit.get("metadata").owner is color
+
     exists: (coords) ->
       !!@findWhere coords
 

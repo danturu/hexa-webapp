@@ -1,7 +1,7 @@
 <script type="text/template" data-name="games">
   <section class="menu">
-    <a href="#" class="new">New</a>
-    <a href="#" class="join">Join</a>
+    <a href="/new" class="new"></a>
+    <a href="#" class="join"></a>
   </section>
 
   <ul class="games"></ul>
@@ -13,16 +13,18 @@
       <!-- circular image -->
     </div>
 
+    <section class="info">
+      <div class="turn">
+        <%= turn %>
+      </div>
+
+      <div class="opponent">
+        <%= opponent %>
+      </div>
+    </section>
+
     <div class="score">
       <%= score %>
-    </div>
-
-    <div class="state">
-      <%= state %>
-    </div>
-
-    <div class="name">
-      <%= name %>
     </div>
   </a>
 </script>

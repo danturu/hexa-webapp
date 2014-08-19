@@ -10,7 +10,7 @@ define ["cs!app", "cs!modules/games/index/views"], (Hexa, Views) ->
     player = Hexa.request "app:currentUser"
     games  = Hexa.request "entities:games"
 
-    gamesView = new Views.GamesView collection: games.started(), currentPlayer: player
+    gamesView = new Views.GamesView collection: games.active(), player: player
     Hexa.mainRegion.show gamesView
 
     gamesView.on "game:new", ->

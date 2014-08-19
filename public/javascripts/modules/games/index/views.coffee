@@ -8,28 +8,23 @@ define ["text!modules/games/index/templates.html", "marionette"], (TEMPLATES, Ma
       "click a" : "show"
 
     serializeData: ->
-      id    : @model.id
-      name  : @opponent.name()
-      state : @state()
-      score : @score()
+      id       : @model.id
+      turn     : @turn()
+      opponent : @opponent.name()
+      score    : @score()
 
     initialize: (options) ->
-      @opponent = @model.opponentFor options.currentPlayer
+      @player   =                    options.player
+      @opponent = @model.opponentFor options.player
 
     onRender: ->
       @.$("div.avatar").css "background-image" : "url(#{@opponent.avatarUrl()})"
 
-    state: ->
-      if @model.state() is "finished"
-        "Finished"
-      else
-        if @model.turnOf @opponent
-          "Opponent turn"
-        else
-          "Your turn"
+    turn: ->
+      if @model.turnOf @player then "Your Turn" else "Opponent Turn"
 
     score: ->
-      "7:23"
+      @model.scoreFor @player
 
   class GamesView extends Marionette.CompositeView
     template             : [TEMPLATES, "games"]
@@ -40,13 +35,11 @@ define ["text!modules/games/index/templates.html", "marionette"], (TEMPLATES, Ma
     childViewEventPrefix : "game"
 
     triggers:
-      "click a.new" : "game:new"
-
-    childViewOptions: ->
-      currentPlayer : @currentPlayer
+      "click a.new"  : "game:new"
+      "click a.join" : "game:join"
 
     initialize: (options) ->
-      @currentPlayer = options.currentPlayer
+      @childViewOptions = player: options.player
 
   # EXPORTS
 

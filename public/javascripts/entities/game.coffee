@@ -64,6 +64,15 @@ define ["cs!app", "cs!entities/planet", "cs!entities/user", "cs!entities/cell", 
     h: ->
       @get "h"
 
+    turnOf: ->
+      @get "turn_of"
+
+    whitePlayer: ->
+      @get "white_player"
+
+    blackPlayer: ->
+      @get "black_player"
+
     plots: ->
       @get "plots"
 
@@ -76,22 +85,31 @@ define ["cs!app", "cs!entities/planet", "cs!entities/user", "cs!entities/cell", 
     turn: (params) ->
       Backbone.customRequest @, { url: @url() + "/turn", method: "put" }, params
 
-    turnOf: (player) ->
-      player.id is @get("turn_of").id
+    canTurn: (player) ->
+      player is @turnOf()
 
     colorOf: (player) ->
-      if player.id is @get("black_player").id then "black" else "white"
+      if player is @whitePlayer() then "black" else "white"
 
     opponentFor: (player) ->
-      @get if player.id is @get("black_player").id then "white_player" else "black_player"
+      if player is @whitePlayer()
+        @blackPlayer()
+      else
+        @whitePlayer()
 
-    noOpponent: ->
-      @get("state") is "waiting"
+    scoreFor: (player) ->
+      whiteScore = @units().withOwner("white").size()
+      blackScore = @units().withOwner("black").size()
+
+      if player is @whitePlayer()
+        [whiteScore, blackScore].join ":"
+      else
+        [blackScore, whiteScore].join ":"
 
   class Collection extends Backbone.Collection
     model: Model
 
-    started: ->
+    active: ->
       new @constructor @filter (game) -> game.state() isnt "waiting"
 
   Hexa.reqres.setHandler "entities:games", ->
