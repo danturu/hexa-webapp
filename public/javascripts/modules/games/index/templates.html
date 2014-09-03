@@ -1,30 +1,38 @@
 <script type="text/template" data-name="games">
   <section class="menu">
-    <a href="/new" class="new"></a>
-    <a href="#" class="join"></a>
+    <h1>Hexa Space</h1>
+
+    <a href="/new"  class="new">New Game</a>
+    <a href="/join" class="join">Join Game</a>
   </section>
 
   <ul class="games"></ul>
 </script>
 
 <script type="text/template" data-name="game">
-  <a href="/games/<%= id %>">
+  <a href="/<%= id %>" class="show">
     <div class="avatar">
       <!-- circular image -->
     </div>
 
     <section class="info">
-      <div class="turn">
-        <%= turn %>
+      <div class="state">
+        <%= state %>
       </div>
 
       <div class="opponent">
         <%= opponent %>
       </div>
+
+      <time class="last-event">
+        <%= lastEvent %>
+      </time>
     </section>
 
     <div class="score">
       <%= score %>
     </div>
   </a>
+
+  <a href="#" class="leave">Leave</a>
 </script>

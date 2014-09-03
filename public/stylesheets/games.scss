@@ -14,27 +14,40 @@
   100% { opacity: 0.5 }
 }
 
-@include keyframes("buzz-out") {
-  10% { @include transform(translateX(+3px) rotate(+2deg)); }
-  20% { @include transform(translateX(-3px) rotate(-2deg)); }
-  30% { @include transform(translateX(+3px) rotate(+2deg)); }
-  40% { @include transform(translateX(-3px) rotate(-2deg)); }
-  50% { @include transform(translateX(+2px) rotate(+1deg)); }
-  60% { @include transform(translateX(-2px) rotate(-1deg)); }
-  70% { @include transform(translateX(+1px) rotate(+0deg)); }
-  80% { @include transform(translateX(-0px) rotate(-0deg)); }
+@include keyframes("space-in-up") {
+  0% {
+    @include transform-origin(50% 0%);
+    @include transform(scale(0) translate(0%, -100%));
+    opacity: 0;
+  }
+
+  100% {
+    @include transform-origin(50% 0%);
+    @include transform(scale(1) translate(0%, 0%));
+    opacity: 1;
+  }
 }
 
-@include keyframes("push") {
-  50%  { @include transform(scale(.8)); }
-  100% { @include transform(sclae(1));  }
+@include keyframes("space-out-down") {
+  0% {
+    @include transform(scale(1) translate(0%, 0%));
+    @include transform-origin(50% 0%);
+    opacity: 1;
+  }
+
+  100% {
+    @include transform(scale(0) translate(0%, 100%));
+    @include transform-origin(50% 0%);
+    opacity: 0;
+  }
 }
 
 article.games {
   @include outer-container;
-  margin: auto;
   padding: 4rem 0;
   width: 100%;
+
+  @include animation(space-in-up .5s ease-in-out);
 
   section.menu, ul.games {
     max-width: 60rem;
@@ -44,87 +57,139 @@ article.games {
   section.menu {
     @include display(flex);
     @include justify-content(space-between);
-    margin-bottom: 4rem;
+    @include align-items(center);
+    margin-bottom: 3.5rem;;
+
+    h1 {
+      @include hide-text;
+      @include order(2);
+      @include retina-image("logo", 100% 100%, $retina-suffix: "_2x");
+      @include size(20rem 11rem);
+      display: block;
+    }
 
     a {
-      @include size(26rem 9rem);
+      @include hide-text;
+      @include size(18rem 7rem);
+      @include transition-duration(.3s);
+      @include transition-property(transform);
+      display: block;
 
-      &:active {
-        @include transform(scale(0.9));
+      html.no-touch &:hover {
+        @include transform(scale(1.07));
       }
 
       &.new {
+        @include order(1);
         @include retina-image("button_new_game", 100% 100%, $retina-suffix: "_2x");
       }
 
       &.join {
+        @include order(3);
         @include retina-image("button_join_game", 100% 100%, $retina-suffix: "_2x");
       }
     }
   }
 
-  ul.games {
-    li + li {
+  ul.games li {
+    @include align-items(center);
+    @include display(flex);
+    @include transition-duration(.3s);
+    @include transition-property(box-shadow);
+    background-color: rgba(black, .3);
+    border-radius: 5% / 100%;
+    overflow: hidden;
+
+    html.no-touch hover {
+      box-shadow: 0 0 8px rgba(white, .5);
+    }
+
+    & + li {
       margin-top: 2rem;
     }
 
-    li a {
-      @include display(flex);
-      background-color: rgba(black, .3);
-      border-radius: 5% / 100%;
-      padding: 1.5rem 3rem 1.5rem 1.5rem;
+    &.removing {
+      @include animation(space-out-down .5s ease-in-out 0s 1 normal forwards);
+    }
 
-      &:active {
-        @include transform(scale(.9));
-      }
+    a.show {
+      @include display(flex);
+      @include flex(1);
+      padding: 1.5rem 0 1.5rem 1.5rem;
 
       div.avatar {
-        @include size(9rem);
-        background-size: 100%;
+        @include size(8rem);
+        background: rgba(white, .5) image-url("fallback_square.png") 0 0 / 100% 100%;
         border-radius: 50%;
-        border: 4px solid white;
+        border: 3px solid white;
       }
 
       section.info {
         @include display(flex);
-        @include flex-direction(column);
         @include flex(1);
+        @include flex-direction(column);
+        @include justify-content(space-around);
         padding: 0 1.5rem;;
         line-height: 1;
 
-        div.turn, div.opponent {
+        & > * {
           @include ellipsis;
-          @include display(flex);
-          @include flex(1);
+          @include user-select(text);
         }
 
-        div.turn {
-          @include align-items(flex-end);
+        div.state {
           font-family: "Lasco";
-          font-size: 3rem;
+          font-size: 2.6rem;
         }
 
         div.opponent {
-          @include align-items(center);
-          font-size: 1.8rem;
+          font-size: 1.4rem;
+        }
+
+        time.last-event {
+          font-size: 1.4rem;
+          opacity: .5;
         }
       }
 
       div.score {
-        @include align-self(center);
+        @include align-items(center);
+        @include display(flex);
+        @include user-select(text);
+        color: white;
+        font-family: "Lasco";
         font-size: 4rem;
+      }
+    }
+
+    a.leave {
+      @include hide-text;
+      @include retina-image("leave", 100% 100%, $retina-suffix: "_2x");
+      @include size(5rem);
+      @include transition-duration(.3s);
+      @include transition-property(transform);
+      margin: auto 3rem;
+
+      html.no-touch &:hover {
+        @include transform(scale(1.1));
       }
     }
   }
 
   @include media(max-width 600px) {
-    padding: 0 1.5rem;
+    padding: 2rem 1.5rem;
 
     section.menu {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
+
+      h1 {
+        @include retina-image("mobile/logo_line", 100% 100%, $retina-suffix: "_2x");
+        @include size(14rem 4rem);
+        margin: 0 1rem;
+      }
 
       a {
-        @include size(13rem 4.5rem);
+        @include size(9rem 3.5rem);
 
         &.new {
           @include retina-image("mobile/button_new_game", 100% 100%, $retina-suffix: "_2x");
@@ -136,24 +201,55 @@ article.games {
       }
     }
 
-    ul.games li a {
-      padding-right: 2rem;
+    ul.games li {
+      position: relative;
 
-      div.avatar {
-        @include size(5rem);
-        border-width: 2px;
+      a.show {
+        div.avatar {
+          @include size(5rem);
+          border-width: 2px;
+        }
+
+        section.info {
+          padding: 0 1rem;
+
+          div.state {
+            font-size: 1.4rem;
+          }
+
+          div.opponent {
+            font-size: 1.0rem;
+          }
+
+          time.last-event {
+            display: none;
+          }
+        }
+
+        div.score {
+          @include align-items(center);
+          @include justify-content(center);
+          @include position(absolute, 1.5rem auto auto 1.5rem);
+          @include size(5rem);
+          background-color: rgba(black, .5);
+          border-radius: 50%;
+          font-family: "Lasco Bold";
+          font-size: 1.8rem;
+        }
       }
 
-      section.info {
-        padding: 0 1rem;
-
-        div.turn     { font-size: 1.7rem; }
-        div.opponent { font-size: 1.1rem; }
+      a.leave {
+        @include retina-image("mobile/leave", 100% 100%, $retina-suffix: "_2x");
+        @include size(2.5rem);
+        margin: auto 1.5rem auto 0;
       }
+    }
+  }
 
-      div.score {
-        font-size: 2.3rem;
-      }
+  @include media(max-width 600px orientation portrait) {
+    section.menu h1 {
+      @include retina-image("mobile/logo_abbr", 100% 100%, $retina-suffix: "_2x");
+      @include size(6rem 4rem);
     }
   }
 
@@ -164,20 +260,175 @@ article.games {
   }
 }
 
+article.friends {
+  @include outer-container;
+  padding: 4rem 0;
+  width: 100%;
+
+  h1 {
+    @include hide-text;
+    @include order(2);
+    @include retina-image("logo", 100% 100%, $retina-suffix: "_2x");
+    @include size(20rem 11rem);
+    display: block;
+    margin: 0 auto 2.5rem;
+  }
+
+  h2 {
+    display: block;
+    font-size: 3rem;
+    margin: 0 auto 1.5rem;
+    max-width: 60rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  input[type="search"] {
+    background-color: rgba(black, .3);
+    border-radius: 99px;
+    display: block;
+    font-size: 2rem;
+    margin: 0 auto 2rem;
+    max-width: 60rem;
+    padding: 1.5rem 2rem;
+    width: 100%;
+
+    &:focus {
+      box-shadow: 0 0 8px rgba(white, .5);
+    }
+  }
+
+  ul.friends {
+    max-width: 60rem;
+    margin: 0 auto;
+
+    div.no-friends {
+      @include user-select(text);
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    li + li {
+      margin-top: 2rem;
+    }
+
+    li a {
+      @include align-items(center);
+      @include display(flex);
+      background-color: rgba(black, .3);
+      border-radius: 5% / 100%;
+      padding: 1rem 3rem 1rem 1.5rem;
+
+      html.no-touch &:hover {
+        box-shadow: 0 0 8px rgba(white, .5);
+      }
+
+      div.avatar {
+        @include size(6rem);
+        background: rgba(white, .5) image-url("fallback_square.png") 0 0 / 100% 100%;
+        border-radius: 50%;
+        border: 3px solid white;
+      }
+
+      div.name {
+        @include flex(1);
+        @include ellipsis;
+        @include user-select(text);
+        font-family: "Lasco";
+        font-size: 2rem;
+        padding: 0 1rem;
+      }
+
+      div.invite {
+        color: $color-yellow;
+        font-size: 2rem;
+      }
+    }
+  }
+
+  @include media(max-width 600px) {
+    padding: 2rem 1.5rem;
+
+    h1 {
+      @include retina-image("mobile/logo_line", 100% 100%, $retina-suffix: "_2x");
+      @include size(14rem 4rem);
+      margin-bottom: 1rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;;
+      margin-bottom: 1.5rem;
+    }
+
+    input[type="search"] {
+      font-size: 1.6rem;
+    }
+
+    ul.friends div.no-friends {
+      font-size: 1.6rem;
+    }
+
+    ul.friends li a {
+      padding: 1rem 1.5rem;
+
+      &:hover {
+        box-shadow: none;
+      }
+
+      div.avatar {
+        @include size(5rem);
+        border-width: 2px;
+      }
+
+      div.name {
+        font-size: 1.2rem;
+      }
+
+      div.invite {
+        font-size: 1.4rem;
+      }
+    }
+  }
+}
+
 article.game {
-  @include position(fixed, 0px 0px);
-  @include display(flex);
-  @include justify-content(center);
-  @include align-items(center);
+  @include position(absolute, 0px 0px);
   overflow: hidden;
+
+  @include media(max-width 600px orientation landscape) {
+    min-height: 320px;
+  }
+}
+
+article.game {
+  section.players {
+    @include position(fixed, 7rem auto auto 2rem);
+    z-index: 99;
+
+     div.avatar {
+        @include size(8rem);
+        background: rgba(white, .5) image-url("fallback_square.png") 0 0 / 100% 100%;
+        border-radius: 50%;
+        border: 3px solid white;
+      }
+  }
+
+  section.menu {
+    @include position(fixed, 7rem 2rem auto auto);
+    @include display(flex);
+    @include align-items(flex-end);
+    @include flex-direction(column);
+    z-index: 99;
+  }
 }
 
 article.game section.planet {
   @include align-items(center);
   @include display(flex);
   @include justify-content(center);
-  max-width: 110rem;
-  position: relative;
+  @include position(absolute, 50% auto auto 50%);
+  @include transform(translate(-50%, -50%));
+  max-width: 105rem;
   width: 100%;
 
   &:before {
@@ -212,13 +463,13 @@ article.game section.planet {
     @include size(100%);
   }
 
-  // fabric.js wrap canvas with container...
+  // fabric.js wrap canvas in container...
 
   div.canvas-container {
      width: 60% !important; height: auto !important;
 
-   &:before {
-      content: " ";
+     &:before {
+      content: "";
       display: block;
       height: 0;
       padding-bottom: 100%;
@@ -228,6 +479,18 @@ article.game section.planet {
       width: 100% !important; height: 100% !important;
     }
   }
-}
 
+  @include media(max-width 600px orientation portrait) {
+    min-width: 185%;
+  }
+
+  @include media(max-width 600px orientation landscape) {
+    min-width: 105%;
+  }
+
+  @include media(max-width 600px orientation landscape device-aspect-ratio 40/71) {
+    min-width: 0;
+    max-width: 90%;
+  }
+}
 

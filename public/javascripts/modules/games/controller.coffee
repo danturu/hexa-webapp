@@ -4,26 +4,23 @@ define ["cs!app", "marionette", "backbone.routefilter"], (Hexa, Marionette) ->
       @mod = mod; super;
 
     index: ->
-      @mod.Index.Controller.index()
+      @mod.Index.Controller.show()
 
     new: ->
-      @mod.Index.Controller.new()
-
-    join: (id) ->
-      @mod.Show.Controller.join id
+      @mod.New.Controller.show()
 
     show: (id) ->
       @mod.Show.Controller.show id
 
   class Controller.Router extends Marionette.AppRouter
     appRoutes:
-      "games"          : "index"
-      "games/new"      : "new"
-      "games/:id/join" : "join"
-      "games/:id"      : "show"
+      ""    : "index"
+      "menu"    : "index"
+      "new" : "new"
+      ":id" : "show"
 
     before: ->
-      Hexa.startSubMod "GamesMod"
+      Hexa.startModule "GamesMod"
 
   # EXPORTS
 

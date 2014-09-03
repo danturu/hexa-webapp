@@ -4,19 +4,22 @@ html {
 }
 
 body {
-  @include background-image(image-url("planets.png"), image-url("stars.png"), linear-gradient(#060730, #531B69));
+  $background-from : #060730;
+  $background-to   : #531B69;
+
+  @include background-image(image-url("stars.png"), linear-gradient($background-from, $background-to));
   @include font-smoothing(on);
+  @include user-select(none);
+  background-color: $background-to;
+  background-repeat: repeat, no-repeat;
   color: white;
   font-family: "Lasco Bold", $helvetica;
   font-size: 1.6rem;
   height: 100%;
   line-height: 1.45;
 
-  background: {
-    attachment: fixed;
-    color: #531B69;
-    position: top right, bottom left;
-    size: cover, auto;
+  html.no-touch & {
+    background-attachment: fixed, fixed;
   }
 }
 
@@ -26,11 +29,20 @@ header, footer, article, section, ul, ol, form, h1, h2, h3, h4, h5, h6 {
   margin:  0;
 }
 
+#{$all-text-inputs}, input[type="submit"], button {
+  @include box-sizing(border-box);
+  border: 0;
+  color: white;
+
+  &:focus { outline: none; }
+}
+
 ul, ol {
   list-style-type: none;
 }
 
 h1, h2, h3, h4, h5, h6 {
+  @include user-select(text);
   font-weight: normal;
 }
 
@@ -40,20 +52,47 @@ a {
 }
 
 main {
+  @include align-items(flex-start);
   @include display(flex);
   min-height: 100%;
+
+  &.center {
+    @include align-items(center);
+  }
+
+  a.menu {
+    @include transition-duration(.3s);
+    @include transition-property(transform);
+    @include hide-text;
+    @include position(fixed, 3rem 3rem auto auto);
+    @include retina-image("menu", 100% 100%, $retina-suffix: "_2x");
+    @include size(9rem 7rem);
+
+    html.no-touch &:hover {
+      @include transform(scale(1.07));
+    }
+  }
+
+  @include media(max-width 600px) {
+    a.menu {
+      @include position(fixed, 1rem 1rem auto auto);
+      @include retina-image("mobile/menu", 100% 100%, $retina-suffix: "_2x");
+      @include size(4.5rem 3.5rem);
+    }
+  }
 }
 
 footer {
   @include position(fixed, auto 0px 0px auto);
+  color: rgba(white, .5);
   display: block;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   line-height: 5rem;
-  padding: 0 2rem;
+  padding-right: 2rem;
 
   @include media(max-width 600px) {
-    font-size: 1rem;
-    line-height: 3rem;
-    padding: 0 1rem;
+    font-size: .8rem;
+    line-height: 2rem;
+    padding-right: .5rem;
   }
 }

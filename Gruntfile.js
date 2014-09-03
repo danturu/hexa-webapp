@@ -3,6 +3,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-clean");
   grunt.loadNpmTasks("grunt-contrib-requirejs");
   grunt.loadNpmTasks("grunt-filerev");
+  grunt.loadNpmTasks("grunt-modernizr");
   grunt.loadNpmTasks("grunt-sass");
 
   grunt.initConfig({
@@ -30,13 +31,42 @@ module.exports = function(grunt) {
       assets: ["public/assets"]
     },
 
+    modernizr: {
+      compile: {
+        devFile: "tmp/public/javascripts/modernizr/modernizr.js",
+        outputFile: "tmp/public/javascripts/modernizr/modernizr.build.js",
+        parseFiles: false,
+        uglify: false,
+
+        extra: {
+          cssclasses: true,
+          load: true,
+          mq: false,
+          printshiv: false,
+          shiv: true,
+          touch: true,
+        },
+
+        extensibility: {
+          addtest: false,
+          domprefixes: false,
+          hasevents: false,
+          prefixed: false,
+          prefixes: false,
+          testallprops: false,
+          testprops: false,
+          teststyles: false
+        }
+      }
+    },
+
     requirejs: {
       compile: {
         options: {
           baseUrl: "./public/javascripts",
           mainConfigFile: "./public/javascripts/config/requirejs/production.js",
           name: "almond",
-          include: "cs!boot",
+          include: "cs!config/boot",
           out: "public/assets/application.js",
         }
       }
@@ -45,7 +75,7 @@ module.exports = function(grunt) {
     sass: {
       compile: {
         options: {
-          imagePath: (process.env.ASSET_HOST || "") + "/assets",
+          imagePath: (process.env.APP_ASSET_HOST || "") + "/assets",
           outputStyle: "compressed",
         },
 
@@ -133,6 +163,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask("assets:compile", [
     "clean:assets",
+    "modernizr:compile",
     "requirejs:compile",
     "sass:compile",
     "filerev",

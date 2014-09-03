@@ -1,0 +1,79 @@
+div.loading {
+  margin: auto;
+
+  &, h2 {
+    color: $color-yellow;
+    font-size: 3rem;
+    text-align: center;
+  }
+
+  @include media(max-width 600px) {
+    &, h2 {
+      font-size: 1.6rem;
+    }
+  }
+}
+
+div.notice {
+  @include position(fixed, 0px 0px auto);
+  @include transform(translateY(-150%));
+  @include transition-duration(.5s);
+  @include transition-property(transform);
+  background-color: $color-green;
+  box-shadow: 0 3px 3px 0 rgba(black, .6);
+  color: black;
+  font-size: 1.5rem;
+  padding: 2rem 1rem;
+  text-align: center;
+  z-index: 999;
+
+  &.init {
+    @include transition(none);
+  }
+
+  &.active {
+    @include transform(none);
+  }
+
+  @include media(max-width 600px) {
+    font-size: 1.2rem;
+    padding: 1rem;
+  }
+}
+
+section.facebook-login {
+  margin: auto;
+
+  h2 {
+    font-size: 3rem;
+    text-align: center;
+  }
+
+  a.login {
+    @include hide-text;
+    @include retina-image("facebook", 100% 100%, $retina-suffix: "_2x");
+    @include size(15rem);
+    @include transition-duration(.3s);
+    @include transition-property(transform);
+    display: block;
+    margin: 2rem auto 0;
+
+    html.no-touch &:hover {
+      @include transform(rotate(4deg) scale(1.1));
+    }
+  }
+
+  @include media(max-width 600px) {
+    h2 {
+      font-size: 1.6rem;
+    }
+
+    a.login {
+      @include retina-image("mobile/facebook", 100% 100%, $retina-suffix: "_2x");
+      @include size(10rem);
+      margin: 1rem auto 0;
+    }
+  }
+}
+
+

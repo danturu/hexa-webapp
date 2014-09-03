@@ -10,15 +10,24 @@ require.config({
     "coffee-script": "../../tmp/public/javascripts/coffeescript/extras/coffee-script",
     "cs": "../../tmp/public/javascripts/require-cs/cs",
     "fabric": "../../tmp/public/javascripts/fabric/dist/fabric.require",
+    "facebook": "../../tmp/public/javascripts/facebook/index",
     "humps": "../../tmp/public/javascripts/humps/humps",
     "jquery": "../../tmp/public/javascripts/jquery/dist/jquery",
+    "jquery.timeago": "../../tmp/public/javascripts/jquery-timeago/jquery.timeago",
     "marionette": "../../tmp/public/javascripts/marionette/lib/core/backbone.marionette",
+    "modernizr": "../../tmp/public/javascripts/modernizr/modernizr.build",
     "text": "../../tmp/public/javascripts/requirejs-text/text",
     "underscore": "../../tmp/public/javascripts/underscore/underscore"
   },
 
   shim: {
-    "humps": { exports: "humps" }
+    "humps": {
+      exports: "humps"
+    },
+
+    "facebook": {
+      exports: "FB"
+    }
   },
 
   exclude: [
@@ -27,6 +36,6 @@ require.config({
 
   stubModules: [
     "cs", "text"
-  ],
+  ]
 });
 

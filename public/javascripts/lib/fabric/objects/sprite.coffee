@@ -29,7 +29,7 @@ define ["cs!lib/fabric/cache", "fabric", "underscore"], (Cache, Fabric, _) ->
       @setCoords()
 
     play: (options, callback=->) ->
-      options = _.defaults options, duration: 300, repeat: 1
+      options = _.defaults options, duration: 300, repeat: 1, callback: callback
 
       @stop(); @setTag(options.tag);
 
@@ -72,7 +72,10 @@ define ["cs!lib/fabric/cache", "fabric", "underscore"], (Cache, Fabric, _) ->
       Cache.put cacheKey, sprite
 
     _nextFrame: (options) ->
-      return @stop(false) if options.repeat <= 1 and @_isLastSprite()
+      if options.repeat <= 1 and @_isLastSprite()
+        @stop(false)
+        options.callback()
+        return
 
       if @_isLastSprite()
         @index = 0; options.repeat--; @trigger "animation:cycle", options.repeat;

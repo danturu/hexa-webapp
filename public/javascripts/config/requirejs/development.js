@@ -11,14 +11,23 @@ require.config({
     "coffee-script": "coffeescript/extras/coffee-script",
     "cs": "require-cs/cs",
     "fabric": "fabric/dist/fabric.require",
+    "facebook": "facebook/index",
     "humps": "humps/humps",
     "jquery": "jquery/dist/jquery",
+    "jquery.timeago": "jquery-timeago/jquery.timeago",
     "marionette": "marionette/lib/core/backbone.marionette",
+    "modernizr": "modernizr/modernizr",
     "text": "requirejs-text/text",
-    "underscore": "underscore/underscore",
+    "underscore": "underscore/underscore"
   },
 
   shim: {
-    "humps": { exports: "humps" }
+    "facebook": {
+      exports: "FB"
+    },
+
+    "humps": {
+      exports: "humps"
+    }
   }
 });

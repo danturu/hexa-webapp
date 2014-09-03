@@ -24,7 +24,13 @@ class Hexa
     !!(@accessToken = accessToken)
 
   get: (resource) ->
-    @master.get "#{@endpointUrl}/api/v1/#{resource}", @accessToken, (event, data) -> deferred.resolve JSON.parse data
+    @master.get "#{@endpointUrl}/api/v1/#{resource}", @accessToken, (event, data) ->
+      try
+        deferred.resolve JSON.parse data
+      catch ex
+        deferred.reject ex
+
+    # wrap...
 
     deferred = new Q.defer()
     deferred.promise

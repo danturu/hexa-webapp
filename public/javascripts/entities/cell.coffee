@@ -1,15 +1,10 @@
 define ["cs!app", "cs!entities/plot", "cs!entities/unit", "backbone", "backbone.relational"], (Hexa, Plot, Unit, Backbone) ->
-
-  # BASE
-
   class BaseModel extends Backbone.RelationalModel
     x: -> @get "x"
     y: -> @get "y"
 
     animationTag: ->
       @get "animationTag"
-
-  # PLOT
 
   class PlotModel extends BaseModel
     relations: [
@@ -22,8 +17,15 @@ define ["cs!app", "cs!entities/plot", "cs!entities/unit", "backbone", "backbone.
       }
     ]
 
+    defaults:
+      state: ""
+
     state: (value) ->
-      if value isnt undefined then @set("state", value) else @get("state")
+      # if value isnt undefined then @set("state", value) else @get("state")
+      @set "state", value
+
+    getState: ->
+      @get "state"
 
   class PlotCollection extends Backbone.Collection
     model: PlotModel
@@ -33,7 +35,7 @@ define ["cs!app", "cs!entities/plot", "cs!entities/unit", "backbone", "backbone.
         @find (plot) -> plot.x() is coords.x and plot.y() is coords.y and not units.exists(coords)
 
     state: (value) ->
-      @each (plot) -> plot.state(value) if plot.state() isnt value
+      @each (plot) -> plot.state(value) if plot.getState() isnt value
 
   # UNIT
 
@@ -51,6 +53,13 @@ define ["cs!app", "cs!entities/plot", "cs!entities/unit", "backbone", "backbone.
     isColor: (color) ->
       @get("metadata").owner is color
 
+    move: (x, y) ->
+      @set(x: x, y: y)
+      @trigger("move")
+
+    destroy: (options) ->
+      @trigger "destroy", @, @collection, options
+
   class UnitCollection extends Backbone.Collection
     model: UnitModel
 
@@ -59,6 +68,11 @@ define ["cs!app", "cs!entities/plot", "cs!entities/unit", "backbone", "backbone.
 
     exists: (coords) ->
       !!@findWhere coords
+
+    enemyFor: (baseUnit, coords) ->
+      new @constructor coords.map (coords) =>
+        @find (unit) ->
+          unit.x() is coords.x and unit.y() is coords.y and unit.get("metadata").owner isnt baseUnit.get("metadata").owner
 
   # EXPORTS
 

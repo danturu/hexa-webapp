@@ -20,7 +20,7 @@ define ["text!modules/games/show/templates.html", "cs!lib/fabric/cache", "fabric
       ASync.each @collection.toArray(), retrieveImage.bind(@, object), callback.bind(@, object)
 
     onChange: ->
-      @object.setTag @model.state()
+      @object.setTag @model.getState()
 
     retrieveImage = (object, model, callback) =>
       Cache.get model.id, loadImage.bind(@, model.url()), (data) ->
@@ -41,9 +41,16 @@ define ["text!modules/games/show/templates.html", "cs!lib/fabric/cache", "fabric
 
     modelEvents:
       "animate" : "onAnimate"
+      "move"    : "onMove"
 
     initialize: (options) ->
       @grid = options.grid
+
+    destroy: ->
+      @object.play tag: "die", duration: 300, repeat: 1, =>
+        @_destroy()
+        @model.trigger("fabric:ddestroy")
+        Fabric.redraw()
 
     onRender: (callback) ->
       object = new Fabric.Sprite
@@ -55,11 +62,15 @@ define ["text!modules/games/show/templates.html", "cs!lib/fabric/cache", "fabric
 
       ASync.each @collection.toArray(), retrieveImage.bind(@, object), callback.bind(@, object)
 
+    onAdd: ->
+      # alert JSON.stringify @model.attributes
+      @object.play tag: "live", duration: 300, repeat: 1
+
     onShow: ->
       @object.play tag: "live", duration: 300, repeat: 1
 
     onDestroy: ->
-      cleatTimeout @clownAnimation
+      clearTimeout @clownAnimation
 
     onAnimate: (options, force) ->
       @object.play options if force or not @object.isAnimating()
@@ -76,34 +87,18 @@ define ["text!modules/games/show/templates.html", "cs!lib/fabric/cache", "fabric
 
     loadImage = (url, callback) =>
       Fabric.util.loadImage url, callback, @, "anonymous"
-    ###
 
       clown = =>
         @object.play(tag: "clown", duration: 300, repeat: 1) unless @object.isAnimating()
 
       # @clownAnimation = setInterval clown, _.random(3, 7) * 1000
 
-    jump: ->
-      @object.setTag("jump").play(duration: 500, repeat: 1, => @object.setTag(null)) #, (-> ),  # , => 2@showObject())
+    onMove: ->
+      @object.bringToFront()
+      @object.play tag: "move", duration: 500, repeat: 1, =>
+        @object.setTag(""); Fabric.redraw();
 
-      @object.animate { left: @grid.getX(@model.x()), top: @grid.getY(@model.y()) }, duration: 550, easing: fabric.util.ease["easeInOutQuad"], onChange: -> Backbone.trigger "canvas:render"
-
-      #@currentObject.animate "top",  @grid.getY(@model.y()), duration: 1000,  easing: fabric.util.ease["easeInOutQuad"]
-
-      #  var animateBtn = document.getElementById('animate');
-      #  animateBtn.onclick = function() {
-      #    animateBtn.disabled = true;
-      #    rect.animate('left', rect.getLeft() === 100 ? 400 : 100, {
-      #      duration: 1000,
-      #      onChange: canvas.renderAll.bind(canvas),
-      #      onComplete: function() {
-      #        animateBtn.disabled = false;
-      #      },
-      #      easing: fabric.util.ease[document.getElementById('easing').value]
-      #    });
-      #  };
-      #})();
-    ###
+      @object.animate { left: @grid.getX(@model.x()), top: @grid.getY(@model.y()) }, duration: 550, easing: fabric.util.ease["easeInOutQuad"], onChange: Fabric.redraw
 
   class PlotsView extends Fabric.CollectionView
     childView            : PlotView
@@ -125,7 +120,20 @@ define ["text!modules/games/show/templates.html", "cs!lib/fabric/cache", "fabric
     childViewOptions: (unit) ->
       grid: @grid, collection: unit.get("object").get("images")
 
-  class GameView extends Marionette.LayoutView
+  class PlayerView extends Marionette.ItemView
+    template  : [TEMPLATES, "player"]
+    className : "player"
+
+    serializeData: ->
+      name : @model.name()
+
+    onRender: ->
+      @.$("div.avatar").css "background-image" : "url(#{@model.avatarUrl()})" if @model.hasAvatar()
+
+    renderScore: (value) ->
+      @.$("div.score").html value
+
+  class GameView extends Marionette.CompositeView
     @VIEW_S : 640 * if window.devicePixelRatio > 1 then 2 else 1
     @BASE_W : 210
     @BASE_H : 182
@@ -133,15 +141,33 @@ define ["text!modules/games/show/templates.html", "cs!lib/fabric/cache", "fabric
     template  : [TEMPLATES, "game"]
     tagName   : "article"
     className : "game"
+    childView            : PlayerView
+    childViewContainer   : "section.players"
+    childViewEventPrefix : "player"
+
+    triggers:
+      "click a.exit" : "exit"
+
+    initialize: ->
+      @listenTo @model.units(), "add remove", @renderScore
 
     onRender: ->
-      @.$("section.planet img").attr src: @model.imageUrl()
+      @.$("section.planet img").attr src: @model.planet().imageUrl()
 
     onShow:->
-      @canvas = new Fabric.Canvas @.$("section.planet canvas").get(0), width: @constructor.VIEW_S, height: @constructor.VIEW_S
+      @canvas = new Fabric.Canvas @.$("canvas").get(0), width: @constructor.VIEW_S, height: @constructor.VIEW_S
+
+    onRenderCollection: ->
+      @renderScore()
 
     show: (fabricView) ->
       fabricView.render @
+
+    renderScore: ->
+      score = @model.scoreFor @collection.first()
+
+      @children.findByIndex(0).renderScore(score[0]);
+      @children.findByIndex(1).renderScore(score[1]);
 
   # EXPORTS
 

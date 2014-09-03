@@ -1,7 +1,7 @@
 {
-  "name" : "hexa-space",
+  "name": "hexa-space",
   "version": "0.0.1",
-  "license": "BSD",
+  "license": "GNU AGPL",
   "private": true,
 
   "authors": [
@@ -15,9 +15,13 @@
     "backbone": "1.1.x",
     "backbone-relational": "0.8.x",
     "fabric": "1.4.x",
+    "facebook": "https://connect.facebook.net/en_US/all.js",
     "humps": "0.4.x",
     "jquery": "2.1.x",
+    "jquery-timeago": "1.4.x",
     "marionette": "2.0.x",
+    "modernizr": "2.8.3",
+    "pusher-js-auth": "https://github.com/dirkbonhomme/pusher-js-auth.git",
     "require-cs": "0.5.x",
     "requirejs": "2.1.x",
     "requirejs-text": "2.0.x",

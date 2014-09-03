@@ -1,0 +1,28 @@
+<script type="text/template" data-name="friends">
+  <a href="/" class="menu">Menu</a>
+
+  <h1>Hexa Space</h1>
+  <h2>Invite a friend to play game</h2>
+
+  <input type="search" placeholder="Search Friend" autofocus>
+  <ul class="friends"></ul>
+</script>
+
+<script type="text/template" data-name="friend">
+  <a href="#">
+    <div class="avatar">
+      <!-- circular image -->
+    </div>
+
+    <div class="name">
+      <%= name %>
+    </div>
+
+    <div class="invite">Invite</div>
+  </a>
+</script>
+
+<script type="text/template" data-name="no-friends">
+  * * * <br>
+  Hmmm... Friends not found...
+</script>

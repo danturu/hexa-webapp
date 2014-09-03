@@ -18,15 +18,9 @@ define ["fabric", "backbone", "async", "underscore"], (Fabric, Backbone, Sync, _
           @canvasView.canvas.add view.object
           view.onAdd()
 
-          #@canvasView.canvas.add view.getObjects()
-
-      @listenTo @collection, "remove", (model) =>
+      @listenTo @collection, "remove", (model, collection) =>
         view = _.find @children, (child) -> child.model == model
-         #view.destroy()
-        view.showObject("out").play(1, => view.destroy())
-        #@renderChild model, (error, view) =>
-        #  _.each view.getObjects(), (obj) => @canvasView.canvas.add obj
-        #  #@canvasView.canvas.add view.getObjects()
+        view.destroy()
 
     initialize: (options) ->
 

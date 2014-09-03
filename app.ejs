@@ -9,6 +9,8 @@
 
     <meta name="hexa-endpoint-url" content="<%= endpointUrl %>">
     <meta name="hexa-access-token" content="<%= accessToken %>">
+    <meta name="hexa-ws-url"       content="<%= wsUrl %>">
+    <meta name="facebook-id"       content="<%= facebookId %>">
 
     <link rel="icon"                             href="<%= assetPath('favicon.ico') %>">
     <link rel="apple-touch-icon"                 href="<%= assetPath('touch_icon_iphone.png') %>">
@@ -21,7 +23,14 @@
   </head>
 
   <body>
-    <main></main>
+    <div class="notice init"></div>
+
+    <main>
+      <div class="loading">
+        * * * <br>
+        <h2>Loading... Wait a sec...</h2>
+      </div>
+    </main>
 
     <footer>© 2014 COMBO GAMES</footer>
 

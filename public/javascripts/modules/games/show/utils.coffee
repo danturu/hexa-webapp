@@ -18,7 +18,7 @@ define ->
 
       @cell.scaleIn = (@cell.w / baseW + @cell.h / baseH) / 2
 
-    getX: (x) -> 3/4 * ((@cell.w + @cell.strokeW) * x) + (@cell.w / 2) + @grid.offsetX
+    getX: (x) -> 3/4 * ((@cell.w                ) * x) + (@cell.w / 2) + @grid.offsetX
     getY: (y) -> 1/2 * ((@cell.h + @cell.strokeW) * y) + (@cell.h / 2) + @grid.offsetY
 
     scaleIn: ->

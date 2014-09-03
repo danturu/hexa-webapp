@@ -1,7 +1,7 @@
 {
   "name": "hexa-space",
   "version": "0.0.1",
-  "license": "BSD",
+  "license": "GNU AGPL",
   "private": true,
 
   "author": "Dimitri Rosenberg <di@radiant.fm> (http://github.com/rosendi)",
@@ -24,12 +24,14 @@
     "oauth": "0.9.x",
     "q": "1.0.x",
     "requirejs": "2.1.x",
+    "serve-favicon": "2.0.x",
     "grunt": "0.4.x",
-    "grunt-cli": "0.1.x",
     "grunt-bower-task": "0.4.x",
+    "grunt-cli": "0.1.x",
+    "grunt-contrib-clean": "0.6.x",
     "grunt-contrib-requirejs": "0.4.x",
     "grunt-filerev": "0.2.x",
-    "grunt-contrib-clean": "0.6.x",
+    "grunt-modernizr": "0.5.2",
     "grunt-sass": "0.14.x"
   }
 }

@@ -1,4 +1,4 @@
-define ["cs!app", "cs!entities/planet", "cs!entities/user", "cs!entities/cell", "backbone", "backbone.relational"], (Hexa, Planet, User, Cell, Backbone) ->
+define ["cs!app", "cs!entities/planet", "cs!entities/user", "cs!entities/friend", "cs!entities/cell", "backbone", "backbone.relational"], (Hexa, Planet, User, Friend, Cell, Backbone) ->
   UserModel = -> require("cs!entities/user").Model
 
   class Model extends Backbone.RelationalModel
@@ -53,64 +53,75 @@ define ["cs!app", "cs!entities/planet", "cs!entities/user", "cs!entities/cell", 
     ]
 
     state: ->
-      @get "state"
+      @get("state")
+
+    eventName: ->
+      @get("event_name")
+
+    eventTime: ->
+      @get("event_time")
 
     planet: ->
-      @get "planet"
+      @get("planet")
 
     w: ->
-      @get "w"
+      @get("w")
 
     h: ->
-      @get "h"
+      @get("h")
 
     turnOf: ->
-      @get "turn_of"
+      @get("turn_of")
 
     whitePlayer: ->
-      @get "white_player"
+      @get("white_player")
 
     blackPlayer: ->
-      @get "black_player"
+      @get("black_player")
 
     plots: ->
-      @get "plots"
+      @get("plots")
 
     units: ->
-      @get "units"
+      @get("units")
 
-    join: ->
-      Backbone.customRequest @, { url: @url() + "/join", method: "put" }
+    channel: ->
+      ["game", @id].join(":")
 
     turn: (params) ->
-      Backbone.customRequest @, { url: @url() + "/turn", method: "put" }, params
+      Backbone.customRequest @, { url: "#{@url()}/turn", method: "put" }, params
 
     canTurn: (player) ->
       player is @turnOf()
 
-    colorOf: (player) ->
-      if player is @whitePlayer() then "black" else "white"
-
     opponentFor: (player) ->
-      if player is @whitePlayer()
-        @blackPlayer()
+      if @state() is "waiting"
+        new Friend.Model @get("metadata").opponent
       else
-        @whitePlayer()
+        if player is @whitePlayer()
+          @blackPlayer()
+        else
+          @whitePlayer()
 
     scoreFor: (player) ->
       whiteScore = @units().withOwner("white").size()
       blackScore = @units().withOwner("black").size()
 
       if player is @whitePlayer()
-        [whiteScore, blackScore].join ":"
+        [whiteScore, blackScore]
       else
-        [blackScore, whiteScore].join ":"
+        [blackScore, whiteScore]
 
   class Collection extends Backbone.Collection
     model: Model
 
+    comparator: (game) ->
+      -new Date(game.eventTime()).getTime()
+
     active: ->
-      new @constructor @filter (game) -> game.state() isnt "waiting"
+      new @constructor @filter (game) -> game.state() isnt "finished"
+
+  # HANDLERS
 
   Hexa.reqres.setHandler "entities:games", ->
     Hexa.request("app:currentUser").get("games")
@@ -122,3 +133,26 @@ define ["cs!app", "cs!entities/planet", "cs!entities/user", "cs!entities/cell", 
 
   Model      : Model
   Collection : Collection
+
+
+
+#    channels = Hexa.request("entities:games").map (game) -> game.channel()
+#
+#    ws = new WebSocket("wss://server.hexa.dev/")
+#    ws.onmessage = (message) ->
+#      console.log "message"
+#      console.log message
+#
+#    ws.onopen = (data) ->
+#      socketId = Math.random()
+#      console.log "opened"
+#
+#      srl = "#{Hexa.ENDPOINT_URL}/api/v1/messages/subscribe"
+#
+#      $.post srl,{ channels: channels, socket_id: socketId },  (r) ->
+#        _.each r, (token, channel) ->
+#          ws.send JSON.stringify(event: "ws:subscribe", channel: channel, token: token)
+#
+#        console.log "res"
+
+
