@@ -21,5 +21,3 @@ define ["facebook"], ->
   login      : login
   request    : request
   challenge  : challenge
-
-
