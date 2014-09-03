@@ -1,7 +1,13 @@
 /node_modules
-/tmp
 
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
 npm-debug.log
 
-.env
+# Igone desktop services store
 .DS_Store
+
+# Ignore development files
+.env
+.foreman
