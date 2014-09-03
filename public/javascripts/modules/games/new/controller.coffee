@@ -27,6 +27,9 @@ define ["cs!app", "cs!modules/games/new/views", "cs!common/views", "cs!lib/faceb
     facebookLoginView = new CommonViews.FacebookLoginView()
     Hexa.mainRegion.center().show facebookLoginView
 
+    facebookLoginView.on "go:menu", ->
+      Hexa.trigger "games:index"
+
     facebookLoginView.on "login:success", ->
        loadingView = new CommonViews.LoadingView()
        Hexa.mainRegion.center().show loadingView

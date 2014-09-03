@@ -11,6 +11,9 @@ define ["cs!app", "text!common/templates.html", "marionette", "cs!lib/facebook",
     events:
       "click a.login" : "login"
 
+    triggers:
+      "click a.menu" : "go:menu"
+
     login: (event) ->
       event.preventDefault()
 
