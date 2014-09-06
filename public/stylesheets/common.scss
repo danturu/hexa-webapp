@@ -14,25 +14,24 @@ div.loading {
   }
 }
 
-div.notice {
+section.flash {
+  @include box-sizing(content-box);
   @include position(fixed, 0px 0px auto);
-  @include transform(translateY(-150%));
-  @include transition-duration(.5s);
-  @include transition-property(transform);
-  background-color: $color-green;
-  box-shadow: 0 3px 3px 0 rgba(black, .6);
-  color: black;
+  @include user-select(text);
   font-size: 1.5rem;
   padding: 2rem 1rem;
   text-align: center;
   z-index: 999;
 
-  &.init {
-    @include transition(none);
+  &.text {
+    color: white;
+    text-shadow: 0 0 2px black;
   }
 
-  &.active {
-    @include transform(none);
+  &.notice {
+    background-color: $color-green;
+    box-shadow: 0 3px 3px 0 rgba(black, .6);
+    color: black;
   }
 
   @include media(max-width 600px) {

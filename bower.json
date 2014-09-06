@@ -19,6 +19,7 @@
     "humps": "0.4.x",
     "jquery": "2.1.x",
     "jquery-timeago": "1.4.x",
+    "jquery-ui": "1.11.x",
     "marionette": "2.0.x",
     "modernizr": "2.8.3",
     "pusher-js-auth": "https://github.com/dirkbonhomme/pusher-js-auth.git",

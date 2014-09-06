@@ -1,4 +1,4 @@
-define ["marionette", "jquery", "underscore"], (Marionette, $, _) ->
+define ["marionette", "jquery", "underscore", "effect-fade", "effect-toggle"], (Marionette, $, _) ->
   Hexa = new Marionette.Application()
 
   Hexa.addRegions mainRegion: "main"
@@ -9,7 +9,6 @@ define ["marionette", "jquery", "underscore"], (Marionette, $, _) ->
     Hexa.entitiesCache = {}
     Hexa.bootstrapData = bootstrapData
     Hexa.currentModule = stop: ->
-    Hexa.$notice       = $("div.notice")
 
   Hexa.on "start", ->
     Backbone.history.start pushState: true unless Backbone.history.started
@@ -17,9 +16,13 @@ define ["marionette", "jquery", "underscore"], (Marionette, $, _) ->
   Hexa.startModule = (moduleName, attributes...) ->
     return if Hexa.currentModule.moduleName is moduleName
 
+    # Call current finalizers.
+
     Hexa.currentModule.stop()
-    Hexa.currentModule = Hexa.module moduleName
-    Hexa.currentModule.start attributes
+
+    # Start a new one module with custom attributes.
+
+    (Hexa.currentModule = Hexa.module moduleName).start(attributes)
 
   Hexa.navigate = (route, options={}) ->
     Backbone.history.navigate route, options
@@ -27,14 +30,23 @@ define ["marionette", "jquery", "underscore"], (Marionette, $, _) ->
   Hexa.currentRoute = ->
     Backbone.history.fragment
 
-  Hexa.flash = (message, timeout=4000) ->
-    timeout = Math.min timeout, 24 * 60 * 60 * 1000
+  Hexa.flash = (message, options={}) ->
+    $flash  = $("section.flash")
+    options = $.extend(type: "notice", effect: "slide", direction: "up", duration: "fast", timeout: 4000, options)
 
-    Hexa.$notice.html(message).removeClass("init").addClass("active")
-    Hexa.$notice.timer(timeout, -> Hexa.$notice.removeClass "active")
+    # Setup HTML attributes, flash type and message text.
+
+    $flash.removeClass().addClass("flash #{options.type}").data("options", options).html(message)
+
+    # Show the flash for a specified time.
+
+    $flash.show(options.effect, options, options.duration).timer(options.timeout, Hexa.hideFlash)
 
   Hexa.hideFlash = ->
-    Hexa.$notice.removeClass "active"
+    $flash  = $("section.flash")
+    options = $flash.data("options")
+
+    $flash.hide(options.effect, options, options.duration)
 
   # EXPORTS
 

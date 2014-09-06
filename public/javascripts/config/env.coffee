@@ -15,7 +15,7 @@ define ["cs!app", "cs!lib/messages", "fabric", "backbone", "marionette", "modern
 
   $.fn.timer = (timeout, callback, id="timer") ->
     $el = $ @
-    clearTimeout $el.data(id); $el.data id, setTimeout(callback, timeout);
+    clearTimeout $el.data(id); $el.data id, setTimeout(callback, Math.min timeout, 24 * 60 * 60 * 1000);
 
   # facebook.js
 
